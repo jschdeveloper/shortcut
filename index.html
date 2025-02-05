@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-theme="light">
+<html data-theme="dark">
 <head>
   <link rel="icon" href="iconos/ic_ism.svg" sizes="any" type="image/svg+xml">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -196,6 +196,35 @@
       justify-content: center;
       box-shadow: var(--time-zone-shadow);
       overflow: hidden;
+      position: relative;
+      transform: translateY(0);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .grid-container > div::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--text-color);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: 12px;
+    }
+
+    .grid-container > div:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.3);
+    }
+
+    .grid-container > div:hover::before {
+      opacity: 0.1;
+    }
+
+    .grid-container > div:active {
+      transform: translateY(-4px);
     }
 
     .grid-container > div a {
@@ -214,6 +243,13 @@
       height: 100%;
       object-fit: contain;
       transition: var(--transition);
+      position: relative;
+      z-index: 1;
+      transition: transform 0.3s ease;
+    }
+
+    .grid-container > div:hover .grid {
+      transform: scale(1.1);
     }
 
     .grid-container > div:hover {
@@ -361,7 +397,12 @@
     </div>
   </header>
   
-  <div class="grid-container">				
+  <div class="grid-container">
+    <!-- SharePoint - Nueva card en primera posición -->
+    <div class="item1"><a target="_blank" href="https://instoremg.sharepoint.com/sites/PortalSPO">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftsharepoint.svg" title="SharePoint" />
+    </a></div>
+    
     <!-- Microsoft 365 - Reemplazar el icono de Outlook -->
     <div class="item3"><a target="_blank" href="https://www.outlook.com">
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftoutlook.svg" title="outlook" />
@@ -407,6 +448,11 @@
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gitlab.svg" title="Git" />
     </a></div>
     
+    <!-- Kibana - Nueva card -->
+    <div class="item1"><a target="_blank" href="https://kibana.in-storemedia.com/login?next=%2F">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/kibana.svg" title="Kibana" />
+    </a></div>
+    
     <!-- GitHub -->
     <div class="item15"><a target="_blank" href="https://github.com/jschdeveloper">
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/github.svg" title="github" />
@@ -429,6 +475,11 @@
         <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/youtube.svg" title="youtube" />
     </a></div>
     
+    <!-- YouTube Music - Nueva card -->
+    <div class="item16"><a target="_blank" href="https://music.youtube.com/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtubemusic.svg" title="YouTube Music" />
+    </a></div>
+
     <!-- Amazon -->
     <div class="item5"><a target="_blank" href="https://www.amazon.es/">
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/amazon.svg" title="amazon" />
@@ -437,6 +488,21 @@
     <!-- OneDrive -->
     <div class="item6"><a target="_blank" href="https://onedrive.live.com/">
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/microsoftonedrive.svg" title="one-drive" />
+    </a></div>
+    
+    <!-- ChatGPT -->
+    <div class="item1"><a target="_blank" href="https://chat.openai.com/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg" title="ChatGPT" />
+    </a></div>
+
+    <!-- Google Gemini -->
+    <div class="item1"><a target="_blank" href="https://gemini.google.com/app?hl=es-ES">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg" title="Gemini" />
+    </a></div>
+
+    <!-- Claude AI -->
+    <div class="item1"><a target="_blank" href="https://claude.ai/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/c.svg" title="Claude AI" />
     </a></div>
 </div>
 
@@ -451,6 +517,13 @@
   .item1 .grid {
     width: 65%;
     height: 65%;
+  }
+
+  /* Estilo específico para el icono de Claude */
+  [href="https://claude.ai/"] .grid {
+    font-weight: bold;
+    width: 50%;
+    height: 50%;
   }
 </style>
 
@@ -473,9 +546,9 @@
       }, 300);
     }
 
-    // Initialize theme from localStorage
+    // Initialize theme from localStorage with dark as default
     document.documentElement.setAttribute('data-theme', 
-      localStorage.getItem('theme') || 'light'
+      localStorage.getItem('theme') || 'dark'
     );
 
     function adjustCardSize(change) {
