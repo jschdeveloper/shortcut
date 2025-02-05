@@ -1,72 +1,617 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="light">
 <head>
   <link rel="icon" href="iconos/ic_ism.svg" sizes="any" type="image/svg+xml">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --bg-color: #f5f5f7;
+      --card-bg: #ffffff;
+      --card-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      --text-color: #1d1d1f;
+      --transition: all 0.3s ease;
+      --hover-transform: translateY(-5px);
+      --header-bg: rgba(255, 255, 255, 0.8);
+      --header-height: auto;
+      --header-min-height: 60px;
+      --header-max-height: 180px;
+      --card-size: 90px;
+      --grid-padding: 20px;
+      --icon-size: 70%;
+      --content-top-margin: 200px; /* Nuevo: margen superior para el contenido */
+      --time-zone-bg: #ffffff;
+      --time-zone-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
 
-<style>
-.grid-container {
-  display: grid;
-  grid-template:
-  'myArea myArea . . .'
-  'myArea myArea . . .';
-  grid-gap: 10px;
-  background-color: #000;
-  padding: 10px;
-}
+    [data-theme="dark"] {
+      --bg-color: #111111;
+      --card-bg: #1e1e1e;
+      --card-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      --text-color: #ffffff;
+      --header-bg: rgba(30, 30, 30, 0.8);
+      --time-zone-bg: #2d2d2d;
+      --time-zone-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
 
-.grid-container > div {
-  background-color: #fff;
-  text-align: center;
-  padding: 0px 0;
-  font-size: 30px;
-}
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
-.grid{
-  width:120px;
-  height:120px;
-  margin-top: 10px;
-}
-</style>
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      min-height: var(--header-min-height);
+      max-height: var(--header-max-height);
+      overflow-y: auto;
+      background: var(--header-bg);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 20px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .header-content {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .time-display {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      width: 100%;
+      padding: 10px;
+      max-width: 1200px;
+    }
+
+    .time-zone {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1em;
+      padding: 10px 16px;
+      background: var(--time-zone-bg);
+      border-radius: 12px;
+      box-shadow: var(--time-zone-shadow);
+    }
+
+    .country-flag {
+      width: 28px;
+      height: 21px; /* Proporción 4:3 para banderas */
+      border-radius: 4px;
+      object-fit: cover;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .time-info {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .time-info span:first-child {
+      font-size: 0.85em;
+      opacity: 0.75;
+      margin-bottom: 2px;
+    }
+
+    .time-info span:last-child {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    .time-info span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .controls-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .size-controls {
+      display: flex;
+      gap: 5px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .control-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--bg-color);
+      color: var(--text-color);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1em;
+      transition: var(--transition);
+      min-width: 40px;
+      border: 1px solid var(--text-color);
+    }
+
+    .control-btn:hover {
+      transform: translateY(-2px);
+      background: var(--text-color);
+      color: var(--bg-color);
+    }
+
+    .theme-toggle {
+      position: static;
+      width: 40px;
+      height: 40px;
+      padding: 8px;
+      border-radius: 10px;
+      background: var(--time-zone-bg);
+      box-shadow: var(--time-zone-shadow);
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2em;
+      color: var(--text-color);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(var(--card-size), 1fr));
+      gap: 15px;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--grid-padding);
+      box-sizing: border-box;
+      padding-top: calc(var(--header-height) + var(--grid-padding));
+      margin-top: var(--content-top-margin);
+    }
+
+    .grid-container > div {
+      background-color: var(--time-zone-bg);
+      border-radius: 12px;
+      transition: var(--transition);
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--time-zone-shadow);
+      overflow: hidden;
+    }
+
+    .grid-container > div a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 15%;
+      box-sizing: border-box;
+    }
+
+    .grid {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: var(--transition);
+    }
+
+    .grid-container > div:hover {
+      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        max-height: 300px;
+        height: auto;
+        padding: 15px;
+      }
+
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .time-display {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 8px;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .time-zone {
+        width: 100%;
+        justify-content: center;
+        min-width: unset;
+        padding: 8px 12px;
+        font-size: 0.9em;
+        gap: 10px;
+      }
+
+      .country-flag {
+        width: 24px;
+        height: 18px;
+      }
+
+      .grid-container {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 10px;
+      }
+
+      :root {
+        --card-size: 70px;
+        --grid-padding: 10px;
+        --content-top-margin: 220px; /* Más espacio en móviles */
+      }
+
+      .grid-container > div a {
+        padding: 12%;
+      }
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+      }
+    }
+  </style>
 </head>
 <body>
-<div class="grid-container">				
-    <div class="item3"><a target="_blank" href="https://www.outlook.com"><img class="grid"  src="iconos/ic_365.svg" title="outlook" /></a></div>
-    <div class="item8"><a target="_blank" href="https://web.whatsapp.com/"><img class="grid"  src="iconos/ic_whats.svg" title="whatsapp" /></a></div>				
-    <div class="item1"><a target="_blank" href="https://mail.google.com/mail/u/0/#inbox" ><img class="grid"  src="iconos/ic_gmail.svg" title="gmail" /></a></div>			
-    <!--div class="item4"><a  target="_blank" href="https://www.google.com"><img class="grid"  src="iconos/ic_google.svg" title="google" /></a></div-->  		
-    <div class="item11"><a target="_blank" href="https://www.linkedin.com/"><img class="grid"  src="iconos/ic_linkedin.svg" title="linkedin" /></a></div>  
-    
-    <div class="item1"><a target="_blank" href="https://intranet.in-storemedia.com/" ><img class="grid"  src="iconos/ic_ism.svg" title="ism" /></a></div>
-    <div class="item1"><a target="_blank" href="http://hub.in-storemedia.com/" ><img class="grid"  src="iconos/ic_hub.svg" title="hub" /></a></div>
-    <div class="item1"><a target="_blank" href="http://hub-stg.in-storemedia.com/" ><img class="grid"  src="iconos/ic_hub-pre.svg" title="hub" /></a></div>
-    <div class="item1"><a target="_blank" href="https://in-storemedia.atlassian.net/jira/dashboards/10010" ><img class="grid"  src="iconos/ic_jira.svg" title="JIRA" /></a></div>
-    <div class="item9"><a target="_blank" href="https://in-storemedia.atlassian.net/wiki/home/"><img class="grid"  src="iconos/ic_confluence.svg" title="Confluence" /></a></div>
-    <div class="item1"><a target="_blank" href="http://ekon-stg.in-storemedia.com:5443/" ><img class="grid"  src="iconos/ic_dev.svg" title="EKON-INT" /></a></div>
-
-    <div class="item1" ><a target="_blank" href="https://qlik.in-storemedia.com/qlikview/index.htm" ><img class="grid"  style="margin-top: 30px;" src="iconos/ic_qlik.svg" title="qlik" /></a></div>				
-    <div class="item1"><a target="_blank" href="https://jenkins.in-storemedia.com/" ><img class="grid"  src="iconos/ic_jenkins.svg" title="jenkins" /></a></div>						
-    <div class="item19"><a target="_blank" href="http://git.in-storemedia.com/" ><img class="grid"  src="iconos/ic_gitlab.svg" title="Git" /></a></div>
-    <div class="item1"><a target="_blank" href="http://nexus.in-storemedia.com/"><img class="grid"  src="iconos/ic_nexus.svg" title="nexus" /></a></div>
-    
-    <div class="item15"><a target="_blank" href="https://github.com/jschdeveloper"><img class="grid"  src="iconos/ic_github.svg" title="github" /></a></div>
-
-    
-    <div class="item12"><a target="_blank" href="http://www.genbeta.com/"><img class="grid"  src="iconos/ic_genbeta.svg" title="genbeta" /></a></div>
-    <div class="item1"><a target="_blank" href="http://www.xataka.com/"><img class="grid"  src="iconos/ic_xataka.svg" title="xataka" /></a></div>
-
-    <div class="item5"><a target="_blank" href="https://www.amazon.es/"><img class="grid" src="iconos/ic_amazon.svg"  title="amazon" /></a></div>
-    <div class="item6"><a target="_blank" href="https://www.chollometro.com/"><img class="grid"  src="iconos/ic_chollometro.svg" title="promo" /></a></div>
-    
-    <div class="item6"><a target="_blank" href="https://onedrive.live.com/?WT.mc_id=PROD%5FOL%2DWeb%5FInApp%5FLeftNav%5FFreeOfficeBarOD&ocid=PROD%5FOL%2DWeb%5FInApp%5FLeftNav%5FFreeOfficeBarOD&id=root&cid=756BCEC0F19589A3"><img class="grid"  src="iconos/ic_one-drive.svg" title="one-drive" /></a></div>
-    
+  <header class="header">
+    <div class="header-content">
+      <div class="time-display">
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/es.png" alt="Barcelona" class="country-flag">
+          <div class="time-info">
+            <span>Barcelona</span>
+            <span id="barcelona-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/mx.png" alt="México" class="country-flag">
+          <div class="time-info">
+            <span>México</span>
+            <span id="mexico-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/ar.png" alt="Argentina" class="country-flag">
+          <div class="time-info">
+            <span>Argentina</span>
+            <span id="argentina-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/cl.png" alt="Chile" class="country-flag">
+          <div class="time-info">
+            <span>Chile</span>
+            <span id="chile-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/pl.png" alt="Polonia" class="country-flag">
+          <div class="time-info">
+            <span>Polonia</span>
+            <span id="poland-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/fr.png" alt="Francia" class="country-flag">
+          <div class="time-info">
+            <span>Francia</span>
+            <span id="france-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/ph.png" alt="Filipinas" class="country-flag">
+          <div class="time-info">
+            <span>Filipinas</span>
+            <span id="philippines-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/it.png" alt="Italia" class="country-flag">
+          <div class="time-info">
+            <span>Italia</span>
+            <span id="italy-time"></span>
+          </div>
+        </div>
+        <div class="time-zone">
+          <img src="https://flagcdn.com/24x18/pt.png" alt="Portugal" class="country-flag">
+          <div class="time-info">
+            <span>Portugal</span>
+            <span id="portugal-time"></span>
+          </div>
+        </div>
+        <div class="time-zone countdown-zone">
+          <div class="emoji-icon">😊</div>
+          <div class="time-info">
+            <span>Tiempo restante</span>
+            <span id="countdown-time" style="color: #ff6b6b;"></span>
+          </div>
+        </div>
+      </div>
+      <div class="controls-group">
+        <div class="size-controls">
+          <button class="control-btn" onclick="adjustCardSize(10)">+</button>
+          <button class="control-btn" onclick="adjustCardSize(-10)">−</button>
+        </div>
+        <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+      </div>
+    </div>
+  </header>
   
-  <div class="item10"><a target="_blank" href="https://www.facebook.com"><img class="grid"  src="iconos/ic_facebook.svg" title="facebook" /></a></div>
-    <div class="item1"><a target="_blank" href="https://outlook.office.com/owa/" ><img class="grid"  src="iconos/ic_outlook.svg" title="365" /></a></div>		
-    <div class="item1"><a target="_blank" href="https://twitter.com/home" ><img class="grid"  src="iconos/ic_twitter.svg" title="twitter" /></a></div>							
-    <div class="item1"><a target="_blank" href="https://www.instagram.com/" ><img class="grid"  src="iconos/ic_insta.svg" title="insta" /></a></div>					
-    <div class="item16"><a target="_blank" href="https://www.youtube.com/"><img class="grid"  src="iconos/ic_youtube.svg" title="youtube" /></a></div>		
-  
+  <div class="grid-container">				
+    <!-- Microsoft 365 - Reemplazar el icono de Outlook -->
+    <div class="item3"><a target="_blank" href="https://www.outlook.com">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftoutlook.svg" title="outlook" />
+    </a></div>
+    
+    <!-- WhatsApp -->
+    <div class="item8"><a target="_blank" href="https://web.whatsapp.com/">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/whatsapp.svg" title="whatsapp" />
+    </a></div>
+    
+    <!-- Gmail -->
+    <div class="item1"><a target="_blank" href="https://mail.google.com/mail/u/0/#inbox">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/gmail.svg" title="gmail" />
+    </a></div>
+    
+    <!-- LinkedIn -->
+    <div class="item11"><a target="_blank" href="https://www.linkedin.com/">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/linkedin.svg" title="linkedin" />
+    </a></div>
+    
+    <!-- Hub - Reemplazar con icono de repositorio -->
+    <div class="item1"><a target="_blank" href="http://hub.in-storemedia.com/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/materialdesignicons.svg" title="hub" />
+    </a></div>
+    
+    <!-- Jira -->
+    <div class="item1"><a target="_blank" href="https://in-storemedia.atlassian.net/jira/dashboards/10010">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/jira.svg" title="JIRA" />
+    </a></div>
+    
+    <!-- Confluence -->
+    <div class="item9"><a target="_blank" href="https://in-storemedia.atlassian.net/wiki/home/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/confluence.svg" title="Confluence" />
+    </a></div>
+    
+    <!-- Jenkins -->
+    <div class="item1"><a target="_blank" href="https://jenkins.in-storemedia.com/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/jenkins.svg" title="jenkins" />
+    </a></div>
+    
+    <!-- GitLab -->
+    <div class="item19"><a target="_blank" href="http://gitlab.in-storemedia.com/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gitlab.svg" title="Git" />
+    </a></div>
+    
+    <!-- GitHub -->
+    <div class="item15"><a target="_blank" href="https://github.com/jschdeveloper">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/github.svg" title="github" />
+    </a></div>
+    
+    <!-- Social Media & Others -->
+    <div class="item10"><a target="_blank" href="https://www.facebook.com">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/facebook.svg" title="facebook" />
+    </a></div>
+    
+    <div class="item1"><a target="_blank" href="https://twitter.com/home">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/twitter.svg" title="twitter" />
+    </a></div>
+    
+    <div class="item1"><a target="_blank" href="https://www.instagram.com/">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/instagram.svg" title="insta" />
+    </a></div>
+    
+    <div class="item16"><a target="_blank" href="https://www.youtube.com/">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/youtube.svg" title="youtube" />
+    </a></div>
+    
+    <!-- Amazon -->
+    <div class="item5"><a target="_blank" href="https://www.amazon.es/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/amazon.svg" title="amazon" />
+    </a></div>
+    
+    <!-- OneDrive -->
+    <div class="item6"><a target="_blank" href="https://onedrive.live.com/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/microsoftonedrive.svg" title="one-drive" />
+    </a></div>
 </div>
 
+<!-- Añadir estilos para los iconos en modo oscuro -->
+<style>
+  [data-theme="dark"] .grid {
+    filter: invert(1);
+  }
+  
+  /* Ajustar el tamaño específicamente para estos iconos si es necesario */
+  .item3 .grid,
+  .item1 .grid {
+    width: 65%;
+    height: 65%;
+  }
+</style>
+
+  <script>
+    // Modificar la función toggleTheme para aplicar la transición suavemente
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      
+      // Añadir clase de transición
+      document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+      
+      html.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      // Remover la transición después de que se complete
+      setTimeout(() => {
+        document.body.style.transition = '';
+      }, 300);
+    }
+
+    // Initialize theme from localStorage
+    document.documentElement.setAttribute('data-theme', 
+      localStorage.getItem('theme') || 'light'
+    );
+
+    function adjustCardSize(change) {
+      const root = document.documentElement;
+      const currentSize = parseInt(getComputedStyle(root).getPropertyValue('--card-size'));
+      const newSize = Math.max(60, Math.min(180, currentSize + change));
+      root.style.setProperty('--card-size', `${newSize}px`);
+      localStorage.setItem('cardSize', newSize);
+    }
+
+    // Recuperar el tamaño guardado al cargar la página
+    window.addEventListener('load', () => {
+      const savedSize = localStorage.getItem('cardSize');
+      if (savedSize) {
+        document.documentElement.style.setProperty('--card-size', savedSize + 'px');
+      }
+    });
+
+    function updateTimes() {
+      const timeZones = {
+        'barcelona-time': 'Europe/Madrid',
+        'mexico-time': 'America/Mexico_City',
+        'argentina-time': 'America/Argentina/Buenos_Aires',
+        'chile-time': 'America/Santiago',
+        'poland-time': 'Europe/Warsaw',
+        'france-time': 'Europe/Paris',
+        'philippines-time': 'Asia/Manila',
+        'italy-time': 'Europe/Rome',
+        'portugal-time': 'Europe/Lisbon'
+      };
+
+      Object.entries(timeZones).forEach(([elementId, timezone]) => {
+        const time = new Date().toLocaleTimeString('es-ES', {
+          timeZone: timezone,
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        document.getElementById(elementId).textContent = time;
+      });
+    }
+
+    // Update times every second
+    updateTimes();
+    setInterval(updateTimes, 1000);
+
+    // Añadir función para ajustar el margen superior del contenido
+    function adjustContentMargin() {
+      const header = document.querySelector('.header');
+      const headerHeight = header.offsetHeight;
+      document.documentElement.style.setProperty('--content-top-margin', `${headerHeight + 20}px`);
+    }
+
+    // Llamar a la función cuando se carga la página y cuando se redimensiona
+    window.addEventListener('load', adjustContentMargin);
+    window.addEventListener('resize', adjustContentMargin);
+
+    // Modificar la función existente de ajuste de tamaño para que también actualice el margen
+    const originalAdjustCardSize = adjustCardSize;
+    adjustCardSize = function(change) {
+      originalAdjustCardSize(change);
+      adjustContentMargin();
+    };
+
+    function updateCountdown() {
+      const now = new Date();
+      const target = new Date();
+      target.setHours(18, 0, 0, 0);
+
+      // Si ya pasó las 18:00, establecer para mañana
+      if (now >= target) {
+        target.setDate(target.getDate() + 1);
+      }
+
+      const diff = target - now;
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      const countdownElement = document.getElementById('countdown-time');
+      countdownElement.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+      const countdownZone = document.querySelector('.countdown-zone');
+      const emojiIcon = countdownZone.querySelector('.emoji-icon');
+      
+      if (hours === 0 && minutes < 30) {
+        countdownElement.style.color = '#ff4747';
+        emojiIcon.textContent = '😰';
+        countdownZone.classList.add('warning');
+      } else {
+        countdownElement.style.color = 'inherit';
+        emojiIcon.textContent = '😊';
+        countdownZone.classList.remove('warning');
+      }
+    }
+
+    // Actualizar el countdown cada segundo
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+<style>
+  .countdown-zone {
+    background: linear-gradient(145deg, var(--card-bg), var(--time-zone-bg));
+  }
+
+  .countdown-zone .time-info span:last-child {
+    font-size: 1.2em;
+    font-weight: 700;
+    font-family: monospace;
+  }
+
+  @media (max-width: 768px) {
+    .countdown-zone {
+      order: -1; /* Mostrar primero en móviles */
+    }
+  }
+
+  .emoji-icon {
+    font-size: 1.5em;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .countdown-zone.warning .emoji-icon {
+    animation: pulse 1s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+</style>
 </body>
 </html>
