@@ -63,8 +63,9 @@
       width: 100%;
       max-width: 1200px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 15px;
+      align-items: stretch;
     }
 
     .time-display {
@@ -135,6 +136,8 @@
       padding: 4px;
       border-radius: 10px;
       box-shadow: var(--card-shadow);
+      align-self: flex-start;
+      width: auto;
     }
 
     #searchInput {
@@ -342,6 +345,7 @@
 
       .search-container {
         width: 100%;
+        align-self: stretch;
       }
 
       #searchInput {
@@ -375,6 +379,10 @@
 <body>
   <header class="header">
     <div class="header-content">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="buscar" onkeyup="handleSearch(event)" />
+        <button class="search-btn" onclick="openFirstMatch()">🔍</button>
+      </div>
       <div class="time-display">
         <div class="time-zone">
           <img src="https://flagcdn.com/24x18/es.png" alt="Barcelona" class="country-flag">
@@ -448,10 +456,6 @@
         </div>
       </div>
       <div class="controls-group">
-        <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Buscar servicio..." onkeyup="handleSearch(event)" />
-          <button class="search-btn" onclick="openFirstMatch()">🔍</button>
-        </div>
         <div class="size-controls">
           <button class="control-btn" onclick="adjustCardSize(10)">+</button>
           <button class="control-btn" onclick="adjustCardSize(-10)">−</button>
@@ -587,6 +591,41 @@
      <!-- Calendar - Nueva card -->
      <div class="item1"><a target="_blank" href="https://preview--ism-fixation-calendar.lovable.app/" title="ISM Calendar - Calendario de fijaciones">
       <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/protoncalendar.svg" alt="ISM Calendar" />
+  </a></div>
+
+  <!-- Trello BAM -->
+  <div class="item1"><a target="_blank" href="https://trello.com/b/BsPqL6Jw/bam">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/trello.svg" title="Trello BAM" />
+  </a></div>
+
+  <!-- Ekon Pro -->
+  <div class="item1"><a target="_blank" href="https://ekon-pro.in-storemedia.com:5443/">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/serverless.svg" title="Ekon Pro" />
+  </a></div>
+
+  <!-- Ekon Pro Server Status -->
+  <div class="item1"><a target="_blank" href="https://ekon-pro.in-storemedia.com:5443/serverstatus">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/statuspage.svg" title="Ekon Pro Server Status" />
+  </a></div>
+
+  <!-- Ekon Staging -->
+  <div class="item1"><a target="_blank" href="https://ekon-stg.in-storemedia.com:19443/">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/serverfault.svg" title="Ekon Staging" />
+  </a></div>
+
+  <!-- Ekon Staging Server Status -->
+  <div class="item1"><a target="_blank" href="https://ekon-stg.in-storemedia.com:19443/serverstatus">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/statuspal.svg" title="Ekon Staging Server Status" />
+  </a></div>
+
+  <!-- Hub Staging -->
+  <div class="item1"><a target="_blank" href="https://hub-stg.in-storemedia.com:19443/">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/databricks.svg" title="Hub Staging" />
+  </a></div>
+
+  <!-- CheckMK -->
+  <div class="item1"><a target="_blank" href="https://checkmk.in-storemedia.com:20443/">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/checkmarx.svg" title="CheckMK" />
   </a></div>
 </div>
 
