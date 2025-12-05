@@ -21,6 +21,8 @@
       --content-top-margin: 200px; /* Nuevo: margen superior para el contenido */
       --time-zone-bg: #ffffff;
       --time-zone-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --flag-width: 28px;
+      --flag-height: 21px;
     }
 
     [data-theme="dark"] {
@@ -89,8 +91,8 @@
     }
 
     .country-flag {
-      width: 28px;
-      height: 21px; /* Proporción 4:3 para banderas */
+      width: var(--flag-width);
+      height: var(--flag-height); /* Proporción 4:3 para banderas */
       border-radius: 4px;
       object-fit: cover;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -136,8 +138,9 @@
       padding: 4px;
       border-radius: 10px;
       box-shadow: var(--card-shadow);
-      align-self: flex-start;
-      width: auto;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     #searchInput {
@@ -147,7 +150,7 @@
       background: var(--bg-color);
       color: var(--text-color);
       font-size: 1em;
-      min-width: 200px;
+      flex: 1;
       transition: var(--transition);
       outline: none;
     }
@@ -188,15 +191,14 @@
     .control-btn {
       padding: 8px 16px;
       border-radius: 8px;
-      border: none;
+      border: 2px solid var(--text-color);
       background: var(--bg-color);
       color: var(--text-color);
       cursor: pointer;
-      font-weight: 600;
-      font-size: 1.1em;
+      font-weight: 700;
+      font-size: 1.2em;
       transition: var(--transition);
       min-width: 40px;
-      border: 1px solid var(--text-color);
     }
 
     .control-btn:hover {
@@ -214,12 +216,19 @@
       background: var(--time-zone-bg);
       box-shadow: var(--time-zone-shadow);
       cursor: pointer;
-      border: none;
+      border: 2px solid var(--text-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2em;
+      font-size: 1.3em;
       color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      background: var(--text-color);
+      filter: brightness(0.9);
     }
 
     .grid-container {
@@ -379,10 +388,6 @@
 <body>
   <header class="header">
     <div class="header-content">
-      <div class="search-container">
-        <input type="text" id="searchInput" placeholder="buscar" onkeyup="handleSearch(event)" />
-        <button class="search-btn" onclick="openFirstMatch()">🔍</button>
-      </div>
       <div class="time-display">
         <div class="time-zone">
           <img src="https://flagcdn.com/24x18/es.png" alt="Barcelona" class="country-flag">
@@ -454,6 +459,10 @@
             <span id="countdown-time" style="color: #ff6b6b;"></span>
           </div>
         </div>
+      </div>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="buscar" onkeyup="handleSearch(event)" />
+        <button class="search-btn" onclick="openFirstMatch()">🔍</button>
       </div>
       <div class="controls-group">
         <div class="size-controls">
@@ -564,8 +573,8 @@
     </a></div>
 
     <!-- Claude AI -->
-    <div class="item1"><a target="_blank" href="https://claude.ai/" title="Claude - Asistente de IA Anthropic">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/c.svg" alt="Claude AI" />
+    <div class="item1"><a target="_blank" href="https://claude.ai/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/anthropic.svg" title="Claude AI" />
     </a></div>
 
     <!-- QlikView -->
@@ -574,8 +583,8 @@
     </a></div>
 
     <!-- QlikSense -->
-    <div class="item1"><a target="_blank" href="https://qs.in-storemedia.com/internal_windows_authentication/" title="QlikSense - Business Intelligence">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/baremetrics.svg" alt="QlikSense" />
+    <div class="item1"><a target="_blank" href="https://qs.in-storemedia.com/hub/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/baremetrics.svg" title="QlikSense" />
     </a></div>
 
     <!-- Lucca -->
@@ -584,8 +593,8 @@
     </a></div>
 
     <!-- Sophos -->
-    <div class="item1"><a target="_blank" href="https://cloud.sophos.com/manage/self-service" title="Sophos - Seguridad y antivirus">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/security.svg" alt="Sophos" />
+    <div class="item1"><a target="_blank" href="https://cloud.sophos.com/manage/self-service">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/sophos.svg" title="Sophos" />
     </a></div>
 
      <!-- Calendar - Nueva card -->
@@ -599,8 +608,8 @@
   </a></div>
 
   <!-- Ekon Pro -->
-  <div class="item1"><a target="_blank" href="https://ekon-pro.in-storemedia.com:5443/">
-      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/serverless.svg" title="Ekon Pro" />
+  <div class="item1"><a target="_blank" href="https://ekon-pro.in-storemedia.com:5443/" class="text-logo">
+      <span class="text-icon">ekon-pro</span>
   </a></div>
 
   <!-- Ekon Pro Server Status -->
@@ -609,8 +618,8 @@
   </a></div>
 
   <!-- Ekon Staging -->
-  <div class="item1"><a target="_blank" href="https://ekon-stg.in-storemedia.com:19443/">
-      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/serverfault.svg" title="Ekon Staging" />
+  <div class="item1"><a target="_blank" href="https://ekon-stg.in-storemedia.com:19443/" class="text-logo">
+      <span class="text-icon">ekon-stg</span>
   </a></div>
 
   <!-- Ekon Staging Server Status -->
@@ -626,6 +635,16 @@
   <!-- CheckMK -->
   <div class="item1"><a target="_blank" href="https://checkmk.in-storemedia.com:20443/">
       <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/checkmarx.svg" title="CheckMK" />
+  </a></div>
+
+  <!-- Salesforce -->
+  <div class="item1"><a target="_blank" href="https://in-store-media.my.salesforce.com/">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/salesforce.svg" title="Salesforce" />
+  </a></div>
+
+  <!-- TravelPerk -->
+  <div class="item1"><a target="_blank" href="https://app.travelperk.com/login">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tripadvisor.svg" title="TravelPerk" />
   </a></div>
 </div>
 
@@ -649,25 +668,31 @@
     height: 50%;
   }
 
-  /* Estilo para la H de Hub */
-  .hub-letter {
-    font-size: 3em;
-    font-weight: bold;
-    color: var(--text-color);
-    display: flex;
+  /* Estilos para logos basados en texto */
+  .text-logo {
+    display: flex !important;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
+  }
+
+  .text-icon {
+    font-size: 0.85em;
+    font-weight: 700;
+    color: var(--text-color);
+    text-align: center;
+    word-wrap: break-word;
+    padding: 10px;
     transition: transform 0.3s ease;
   }
 
-  .hub-icon:hover .hub-letter {
-    transform: scale(1.1);
+  [data-theme="dark"] .text-icon {
+    filter: none;
   }
 
-  [data-theme="dark"] .hub-letter {
-    filter: none;
+  .grid-container > div:hover .text-icon {
+    transform: scale(1.1);
   }
 </style>
 
@@ -701,6 +726,15 @@
       const newSize = Math.max(60, Math.min(180, currentSize + change));
       root.style.setProperty('--card-size', `${newSize}px`);
       localStorage.setItem('cardSize', newSize);
+
+      // Adjust flag sizes proportionally (base: 90px card = 28px flag width)
+      const flagScale = newSize / 90;
+      const newFlagWidth = Math.round(28 * flagScale);
+      const newFlagHeight = Math.round(21 * flagScale);
+      root.style.setProperty('--flag-width', `${newFlagWidth}px`);
+      root.style.setProperty('--flag-height', `${newFlagHeight}px`);
+      localStorage.setItem('flagWidth', newFlagWidth);
+      localStorage.setItem('flagHeight', newFlagHeight);
     }
 
     // Recuperar el tamaño guardado al cargar la página
@@ -708,6 +742,13 @@
       const savedSize = localStorage.getItem('cardSize');
       if (savedSize) {
         document.documentElement.style.setProperty('--card-size', savedSize + 'px');
+      }
+
+      const savedFlagWidth = localStorage.getItem('flagWidth');
+      const savedFlagHeight = localStorage.getItem('flagHeight');
+      if (savedFlagWidth && savedFlagHeight) {
+        document.documentElement.style.setProperty('--flag-width', savedFlagWidth + 'px');
+        document.documentElement.style.setProperty('--flag-height', savedFlagHeight + 'px');
       }
     });
 
@@ -793,42 +834,17 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Sistema de tracking de uso
-    let usageStats = JSON.parse(localStorage.getItem('usageStats')) || {};
-
-    function trackUsage(url) {
-      usageStats[url] = (usageStats[url] || 0) + 1;
-      localStorage.setItem('usageStats', JSON.stringify(usageStats));
-      sortIconsByUsage();
-    }
-
-    function sortIconsByUsage() {
-      const container = document.querySelector('.grid-container');
-      const items = Array.from(container.children);
-
-      items.sort((a, b) => {
-        const urlA = a.querySelector('a').getAttribute('href');
-        const urlB = b.querySelector('a').getAttribute('href');
-        const usageA = usageStats[urlA] || 0;
-        const usageB = usageStats[urlB] || 0;
-        return usageB - usageA;
-      });
-
-      items.forEach(item => container.appendChild(item));
-    }
-
-    // Añadir event listeners a todos los enlaces para trackear uso
-    document.addEventListener('DOMContentLoaded', () => {
-      sortIconsByUsage();
-
-      document.querySelectorAll('.grid-container a').forEach(link => {
-        link.addEventListener('click', (e) => {
-          trackUsage(link.getAttribute('href'));
-        });
-      });
+    // Keyboard shortcut: Ctrl + Space to focus search
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.code === 'Space') {
+        event.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        searchInput.focus();
+        searchInput.select();
+      }
     });
 
-    // Funciones del buscador con filtrado en tiempo real
+    // Funciones del buscador
     function handleSearch(event) {
       const searchTerm = event.target.value.toLowerCase().trim();
 
