@@ -91,12 +91,14 @@
     }
 
     .country-flag {
-      width: var(--flag-width);
-      height: var(--flag-height); /* Proporción 4:3 para banderas */
+      width: 36px;
+      height: 27px; /* Proporción 4:3 para banderas */
       border-radius: 4px;
       object-fit: cover;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+      display: block;
     }
 
     .time-info {
@@ -189,46 +191,48 @@
     }
 
     .control-btn {
-      padding: 8px 16px;
+      padding: 10px 18px;
       border-radius: 8px;
       border: 2px solid var(--text-color);
       background: var(--bg-color);
       color: var(--text-color);
       cursor: pointer;
       font-weight: 700;
-      font-size: 1.2em;
+      font-size: 1.4em;
       transition: var(--transition);
-      min-width: 40px;
+      min-width: 45px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }
 
     .control-btn:hover {
       transform: translateY(-2px);
       background: var(--text-color);
       color: var(--bg-color);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
     }
 
     .theme-toggle {
       position: static;
-      width: 40px;
-      height: 40px;
-      padding: 8px;
+      width: 50px;
+      height: 50px;
+      padding: 10px;
       border-radius: 10px;
       background: var(--time-zone-bg);
-      box-shadow: var(--time-zone-shadow);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       cursor: pointer;
       border: 2px solid var(--text-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3em;
+      font-size: 1.5em;
       color: var(--text-color);
       transition: var(--transition);
     }
 
     .theme-toggle:hover {
       transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
       background: var(--text-color);
-      filter: brightness(0.9);
     }
 
     .grid-container {
@@ -343,8 +347,8 @@
       }
 
       .country-flag {
-        width: 24px;
-        height: 18px;
+        width: 32px;
+        height: 24px;
       }
 
       .controls-group {
@@ -390,63 +394,63 @@
     <div class="header-content">
       <div class="time-display">
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/es.png" alt="Barcelona" class="country-flag">
+          <img src="https://flagcdn.com/32x24/es.png" alt="Barcelona" class="country-flag">
           <div class="time-info">
             <span>Barcelona</span>
             <span id="barcelona-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/mx.png" alt="México" class="country-flag">
+          <img src="https://flagcdn.com/32x24/mx.png" alt="México" class="country-flag">
           <div class="time-info">
             <span>México</span>
             <span id="mexico-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/ar.png" alt="Argentina" class="country-flag">
+          <img src="https://flagcdn.com/32x24/ar.png" alt="Argentina" class="country-flag">
           <div class="time-info">
             <span>Argentina</span>
             <span id="argentina-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/cl.png" alt="Chile" class="country-flag">
+          <img src="https://flagcdn.com/32x24/cl.png" alt="Chile" class="country-flag">
           <div class="time-info">
             <span>Chile</span>
             <span id="chile-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/pl.png" alt="Polonia" class="country-flag">
+          <img src="https://flagcdn.com/32x24/pl.png" alt="Polonia" class="country-flag">
           <div class="time-info">
             <span>Polonia</span>
             <span id="poland-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/fr.png" alt="Francia" class="country-flag">
+          <img src="https://flagcdn.com/32x24/fr.png" alt="Francia" class="country-flag">
           <div class="time-info">
             <span>Francia</span>
             <span id="france-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/ph.png" alt="Filipinas" class="country-flag">
+          <img src="https://flagcdn.com/32x24/ph.png" alt="Filipinas" class="country-flag">
           <div class="time-info">
             <span>Filipinas</span>
             <span id="philippines-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/it.png" alt="Italia" class="country-flag">
+          <img src="https://flagcdn.com/32x24/it.png" alt="Italia" class="country-flag">
           <div class="time-info">
             <span>Italia</span>
             <span id="italy-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/pt.png" alt="Portugal" class="country-flag">
+          <img src="https://flagcdn.com/32x24/pt.png" alt="Portugal" class="country-flag">
           <div class="time-info">
             <span>Portugal</span>
             <span id="portugal-time"></span>
@@ -594,7 +598,7 @@
 
     <!-- Sophos -->
     <div class="item1"><a target="_blank" href="https://cloud.sophos.com/manage/self-service">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/sophos.svg" title="Sophos" />
+        <div class="sophos-logo" title="Sophos">Sophos</div>
     </a></div>
 
      <!-- Calendar - Nueva card -->
@@ -653,7 +657,7 @@
   [data-theme="dark"] .grid {
     filter: invert(1);
   }
-  
+
   /* Ajustar el tamaño específicamente para estos iconos si es necesario */
   .item3 .grid,
   .item1 .grid {
@@ -668,31 +672,25 @@
     height: 50%;
   }
 
-  /* Estilos para logos basados en texto */
-  .text-logo {
-    display: flex !important;
+  /* Estilo para el logo de Sophos con texto */
+  .sophos-logo {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--text-color);
+    text-align: center;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
   }
 
-  .text-icon {
-    font-size: 0.85em;
-    font-weight: 700;
-    color: var(--text-color);
-    text-align: center;
-    word-wrap: break-word;
-    padding: 10px;
-    transition: transform 0.3s ease;
-  }
-
-  [data-theme="dark"] .text-icon {
+  /* Excluir el logo de Sophos del filtro de inversión en modo oscuro */
+  [data-theme="dark"] .sophos-logo {
     filter: none;
-  }
-
-  .grid-container > div:hover .text-icon {
-    transform: scale(1.1);
+    color: var(--text-color);
   }
 </style>
 
