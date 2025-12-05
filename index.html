@@ -125,6 +125,52 @@
       display: flex;
       gap: 10px;
       align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .search-container {
+      display: flex;
+      gap: 5px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 10px;
+      box-shadow: var(--card-shadow);
+    }
+
+    #searchInput {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: 1px solid var(--text-color);
+      background: var(--bg-color);
+      color: var(--text-color);
+      font-size: 1em;
+      min-width: 200px;
+      transition: var(--transition);
+      outline: none;
+    }
+
+    #searchInput:focus {
+      border-color: #0071e3;
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.2);
+    }
+
+    .search-btn {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      background: var(--bg-color);
+      color: var(--text-color);
+      cursor: pointer;
+      font-size: 1.1em;
+      transition: var(--transition);
+      min-width: 40px;
+      border: 1px solid var(--text-color);
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+      background: var(--text-color);
+      color: var(--bg-color);
     }
 
     .size-controls {
@@ -258,7 +304,7 @@
 
     @media (max-width: 768px) {
       .header {
-        max-height: 300px;
+        max-height: 350px;
         height: auto;
         padding: 15px;
       }
@@ -289,6 +335,20 @@
         height: 18px;
       }
 
+      .controls-group {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .search-container {
+        width: 100%;
+      }
+
+      #searchInput {
+        min-width: unset;
+        flex: 1;
+      }
+
       .grid-container {
         grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
         gap: 10px;
@@ -297,7 +357,7 @@
       :root {
         --card-size: 70px;
         --grid-padding: 10px;
-        --content-top-margin: 220px; /* Más espacio en móviles */
+        --content-top-margin: 270px; /* Más espacio en móviles */
       }
 
       .grid-container > div a {
@@ -388,6 +448,10 @@
         </div>
       </div>
       <div class="controls-group">
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Buscar servicio..." onkeyup="handleSearch(event)" />
+          <button class="search-btn" onclick="openFirstMatch()">🔍</button>
+        </div>
         <div class="size-controls">
           <button class="control-btn" onclick="adjustCardSize(10)">+</button>
           <button class="control-btn" onclick="adjustCardSize(-10)">−</button>
@@ -503,6 +567,26 @@
     <!-- Claude AI -->
     <div class="item1"><a target="_blank" href="https://claude.ai/">
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/c.svg" title="Claude AI" />
+    </a></div>
+
+    <!-- QlikView -->
+    <div class="item1"><a target="_blank" href="https://qv.in-storemedia.com/qlikview/FormLogin.htm">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/quicklook.svg" title="QlikView" />
+    </a></div>
+
+    <!-- QlikSense -->
+    <div class="item1"><a target="_blank" href="https://qs.in-storemedia.com/internal_windows_authentication/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/baremetrics.svg" title="QlikSense" />
+    </a></div>
+
+    <!-- Lucca -->
+    <div class="item1"><a target="_blank" href="https://in-storemedia.ilucca.net/hello/">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/clockify.svg" title="Lucca" />
+    </a></div>
+
+    <!-- Sophos -->
+    <div class="item1"><a target="_blank" href="https://cloud.sophos.com/manage/self-service">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/security.svg" title="Sophos" />
     </a></div>
 
      <!-- Calendar - Nueva card -->
@@ -653,6 +737,38 @@
     // Actualizar el countdown cada segundo
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    // Funciones del buscador
+    function handleSearch(event) {
+      if (event.key === 'Enter') {
+        openFirstMatch();
+      }
+    }
+
+    function openFirstMatch() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+
+      if (!searchTerm) {
+        return;
+      }
+
+      // Obtener todos los enlaces
+      const links = document.querySelectorAll('.grid-container a');
+
+      // Buscar la primera coincidencia
+      for (let link of links) {
+        const title = link.querySelector('img').getAttribute('title').toLowerCase();
+        const url = link.getAttribute('href').toLowerCase();
+
+        if (title.includes(searchTerm) || url.includes(searchTerm)) {
+          // Abrir la primera coincidencia
+          window.open(link.getAttribute('href'), '_blank');
+          // Limpiar el campo de búsqueda
+          document.getElementById('searchInput').value = '';
+          break;
+        }
+      }
+    }
   </script>
 
 <style>
