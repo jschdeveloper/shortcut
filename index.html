@@ -12,13 +12,10 @@
       --transition: all 0.3s ease;
       --hover-transform: translateY(-5px);
       --header-bg: rgba(255, 255, 255, 0.8);
-      --header-height: auto;
-      --header-min-height: 60px;
-      --header-max-height: 180px;
       --card-size: 90px;
       --grid-padding: 20px;
       --icon-size: 70%;
-      --content-top-margin: 200px; /* Nuevo: margen superior para el contenido */
+      --content-top-margin: 280px;
       --time-zone-bg: #ffffff;
       --time-zone-shadow: 0 2px 8px rgba(0,0,0,0.1);
       --flag-width: 28px;
@@ -46,47 +43,43 @@
       top: 0;
       left: 0;
       right: 0;
-      height: var(--header-height);
-      min-height: var(--header-min-height);
-      max-height: var(--header-max-height);
-      overflow-y: auto;
+      height: auto;
       background: var(--header-bg);
       backdrop-filter: blur(10px);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 0 20px;
+      padding: 10px 20px;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      -webkit-overflow-scrolling: touch;
     }
 
     .header-content {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       align-items: stretch;
+      padding: 5px 0;
     }
 
     .time-display {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
       width: 100%;
-      padding: 10px;
-      max-width: 1200px;
+      padding: 5px 0;
     }
 
     .time-zone {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.1em;
-      padding: 10px 16px;
+      gap: 8px;
+      font-size: 0.95em;
+      padding: 8px 12px;
       background: var(--time-zone-bg);
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: var(--time-zone-shadow);
     }
 
@@ -244,7 +237,6 @@
       margin: 0 auto;
       padding: var(--grid-padding);
       box-sizing: border-box;
-      padding-top: calc(var(--header-height) + var(--grid-padding));
       margin-top: var(--content-top-margin);
     }
 
@@ -320,35 +312,31 @@
 
     @media (max-width: 768px) {
       .header {
-        max-height: 350px;
-        height: auto;
-        padding: 15px;
+        padding: 10px 15px;
       }
 
       .header-content {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
       }
 
       .time-display {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 8px;
-        flex-direction: column;
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 6px;
       }
 
       .time-zone {
         width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         min-width: unset;
-        padding: 8px 12px;
-        font-size: 0.9em;
-        gap: 10px;
+        padding: 7px 10px;
+        font-size: 0.85em;
+        gap: 8px;
       }
 
       .country-flag {
-        width: 32px;
-        height: 24px;
+        width: 28px;
+        height: 21px;
       }
 
       .controls-group {
@@ -374,7 +362,6 @@
       :root {
         --card-size: 70px;
         --grid-padding: 10px;
-        --content-top-margin: 270px; /* Más espacio en móviles */
       }
 
       .grid-container > div a {
