@@ -12,15 +12,14 @@
       --transition: all 0.3s ease;
       --hover-transform: translateY(-5px);
       --header-bg: rgba(255, 255, 255, 0.8);
-      --header-height: auto;
-      --header-min-height: 60px;
-      --header-max-height: 180px;
       --card-size: 90px;
       --grid-padding: 20px;
       --icon-size: 70%;
-      --content-top-margin: 200px; /* Nuevo: margen superior para el contenido */
+      --content-top-margin: 280px;
       --time-zone-bg: #ffffff;
       --time-zone-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      --flag-width: 28px;
+      --flag-height: 21px;
     }
 
     [data-theme="dark"] {
@@ -44,57 +43,55 @@
       top: 0;
       left: 0;
       right: 0;
-      height: var(--header-height);
-      min-height: var(--header-min-height);
-      max-height: var(--header-max-height);
-      overflow-y: auto;
+      height: auto;
       background: var(--header-bg);
       backdrop-filter: blur(10px);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
-      padding: 0 20px;
+      padding: 10px 20px;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      -webkit-overflow-scrolling: touch;
     }
 
     .header-content {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 10px;
       align-items: stretch;
+      padding: 5px 0;
     }
 
     .time-display {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 10px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px;
       width: 100%;
-      padding: 10px;
-      max-width: 1200px;
+      padding: 5px 0;
     }
 
     .time-zone {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.1em;
-      padding: 10px 16px;
+      gap: 8px;
+      font-size: 0.95em;
+      padding: 8px 12px;
       background: var(--time-zone-bg);
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow: var(--time-zone-shadow);
     }
 
     .country-flag {
-      width: 28px;
-      height: 21px; /* Proporción 4:3 para banderas */
+      width: 36px;
+      height: 27px; /* Proporción 4:3 para banderas */
       border-radius: 4px;
       object-fit: cover;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      border: 1px solid rgba(0,0,0,0.1);
+      flex-shrink: 0;
+      display: block;
     }
 
     .time-info {
@@ -136,8 +133,9 @@
       padding: 4px;
       border-radius: 10px;
       box-shadow: var(--card-shadow);
-      align-self: flex-start;
-      width: auto;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     #searchInput {
@@ -147,7 +145,7 @@
       background: var(--bg-color);
       color: var(--text-color);
       font-size: 1em;
-      min-width: 200px;
+      flex: 1;
       transition: var(--transition);
       outline: none;
     }
@@ -186,40 +184,48 @@
     }
 
     .control-btn {
-      padding: 8px 16px;
+      padding: 10px 18px;
       border-radius: 8px;
-      border: none;
+      border: 2px solid var(--text-color);
       background: var(--bg-color);
       color: var(--text-color);
       cursor: pointer;
-      font-weight: 600;
-      font-size: 1.1em;
+      font-weight: 700;
+      font-size: 1.4em;
       transition: var(--transition);
-      min-width: 40px;
-      border: 1px solid var(--text-color);
+      min-width: 45px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }
 
     .control-btn:hover {
       transform: translateY(-2px);
       background: var(--text-color);
       color: var(--bg-color);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
     }
 
     .theme-toggle {
       position: static;
-      width: 40px;
-      height: 40px;
-      padding: 8px;
+      width: 50px;
+      height: 50px;
+      padding: 10px;
       border-radius: 10px;
       background: var(--time-zone-bg);
-      box-shadow: var(--time-zone-shadow);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
       cursor: pointer;
-      border: none;
+      border: 2px solid var(--text-color);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2em;
+      font-size: 1.5em;
       color: var(--text-color);
+      transition: var(--transition);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+      background: var(--text-color);
     }
 
     .grid-container {
@@ -231,7 +237,6 @@
       margin: 0 auto;
       padding: var(--grid-padding);
       box-sizing: border-box;
-      padding-top: calc(var(--header-height) + var(--grid-padding));
       margin-top: var(--content-top-margin);
     }
 
@@ -307,35 +312,31 @@
 
     @media (max-width: 768px) {
       .header {
-        max-height: 350px;
-        height: auto;
-        padding: 15px;
+        padding: 10px 15px;
       }
 
       .header-content {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
       }
 
       .time-display {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        gap: 8px;
-        flex-direction: column;
-        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 6px;
       }
 
       .time-zone {
         width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         min-width: unset;
-        padding: 8px 12px;
-        font-size: 0.9em;
-        gap: 10px;
+        padding: 7px 10px;
+        font-size: 0.85em;
+        gap: 8px;
       }
 
       .country-flag {
-        width: 24px;
-        height: 18px;
+        width: 28px;
+        height: 21px;
       }
 
       .controls-group {
@@ -361,7 +362,6 @@
       :root {
         --card-size: 70px;
         --grid-padding: 10px;
-        --content-top-margin: 270px; /* Más espacio en móviles */
       }
 
       .grid-container > div a {
@@ -379,69 +379,65 @@
 <body>
   <header class="header">
     <div class="header-content">
-      <div class="search-container">
-        <input type="text" id="searchInput" placeholder="buscar" onkeyup="handleSearch(event)" />
-        <button class="search-btn" onclick="openFirstMatch()">🔍</button>
-      </div>
       <div class="time-display">
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/es.png" alt="Barcelona" class="country-flag">
+          <img src="https://flagcdn.com/32x24/es.png" alt="Barcelona" class="country-flag">
           <div class="time-info">
             <span>Barcelona</span>
             <span id="barcelona-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/mx.png" alt="México" class="country-flag">
+          <img src="https://flagcdn.com/32x24/mx.png" alt="México" class="country-flag">
           <div class="time-info">
             <span>México</span>
             <span id="mexico-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/ar.png" alt="Argentina" class="country-flag">
+          <img src="https://flagcdn.com/32x24/ar.png" alt="Argentina" class="country-flag">
           <div class="time-info">
             <span>Argentina</span>
             <span id="argentina-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/cl.png" alt="Chile" class="country-flag">
+          <img src="https://flagcdn.com/32x24/cl.png" alt="Chile" class="country-flag">
           <div class="time-info">
             <span>Chile</span>
             <span id="chile-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/pl.png" alt="Polonia" class="country-flag">
+          <img src="https://flagcdn.com/32x24/pl.png" alt="Polonia" class="country-flag">
           <div class="time-info">
             <span>Polonia</span>
             <span id="poland-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/fr.png" alt="Francia" class="country-flag">
+          <img src="https://flagcdn.com/32x24/fr.png" alt="Francia" class="country-flag">
           <div class="time-info">
             <span>Francia</span>
             <span id="france-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/ph.png" alt="Filipinas" class="country-flag">
+          <img src="https://flagcdn.com/32x24/ph.png" alt="Filipinas" class="country-flag">
           <div class="time-info">
             <span>Filipinas</span>
             <span id="philippines-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/it.png" alt="Italia" class="country-flag">
+          <img src="https://flagcdn.com/32x24/it.png" alt="Italia" class="country-flag">
           <div class="time-info">
             <span>Italia</span>
             <span id="italy-time"></span>
           </div>
         </div>
         <div class="time-zone">
-          <img src="https://flagcdn.com/24x18/pt.png" alt="Portugal" class="country-flag">
+          <img src="https://flagcdn.com/32x24/pt.png" alt="Portugal" class="country-flag">
           <div class="time-info">
             <span>Portugal</span>
             <span id="portugal-time"></span>
@@ -455,6 +451,10 @@
           </div>
         </div>
       </div>
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="buscar" onkeyup="handleSearch(event)" />
+        <button class="search-btn" onclick="openFirstMatch()">🔍</button>
+      </div>
       <div class="controls-group">
         <div class="size-controls">
           <button class="control-btn" onclick="adjustCardSize(10)">+</button>
@@ -467,135 +467,130 @@
   
   <div class="grid-container">
     <!-- SharePoint - Nueva card en primera posición -->
-    <div class="item1"><a target="_blank" href="https://instoremg.sharepoint.com/sites/PortalSPO">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftsharepoint.svg" title="SharePoint" />
-    </a></div>    
-       
+    <div class="item1"><a target="_blank" href="https://instoremg.sharepoint.com/sites/PortalSPO" title="SharePoint - Portal corporativo">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftsharepoint.svg" alt="SharePoint" />
+    </a></div>
+
     <!-- Microsoft 365 - Reemplazar el icono de Outlook -->
-    <div class="item3"><a target="_blank" href="https://www.outlook.com">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftoutlook.svg" title="outlook" />
+    <div class="item3"><a target="_blank" href="https://www.outlook.com" title="Outlook - Correo electrónico">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/microsoftoutlook.svg" alt="Outlook" />
     </a></div>
-    
+
     <!-- WhatsApp -->
-    <div class="item8"><a target="_blank" href="https://web.whatsapp.com/">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/whatsapp.svg" title="whatsapp" />
+    <div class="item8"><a target="_blank" href="https://web.whatsapp.com/" title="WhatsApp Web - Mensajería">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/whatsapp.svg" alt="WhatsApp" />
     </a></div>
-    
+
     <!-- Gmail -->
-    <div class="item1"><a target="_blank" href="https://mail.google.com/mail/u/0/#inbox">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/gmail.svg" title="gmail" />
+    <div class="item1"><a target="_blank" href="https://mail.google.com/mail/u/0/#inbox" title="Gmail - Correo Google">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/gmail.svg" alt="Gmail" />
     </a></div>
-    
+
     <!-- LinkedIn -->
-    <div class="item11"><a target="_blank" href="https://www.linkedin.com/">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/linkedin.svg" title="linkedin" />
+    <div class="item11"><a target="_blank" href="https://www.linkedin.com/" title="LinkedIn - Red profesional">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/linkedin.svg" alt="LinkedIn" />
     </a></div>
     
-    <!-- Hub - Reemplazar con icono de repositorio -->
-    <div class="item1"><a target="_blank" href="http://hub.in-storemedia.com/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/materialdesignicons.svg" title="hub" />
+    <!-- Hub - Icono personalizado con H -->
+    <div class="item1 hub-icon"><a target="_blank" href="http://hub.in-storemedia.com/" title="Hub ISM">
+        <div class="hub-letter">H</div>
     </a></div>
     
     <!-- Jira -->
-    <div class="item1"><a target="_blank" href="https://in-storemedia.atlassian.net/jira/dashboards/10010">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/jira.svg" title="JIRA" />
+    <div class="item1"><a target="_blank" href="https://in-storemedia.atlassian.net/jira/dashboards/10010" title="Jira - Gestión de proyectos">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/jira.svg" alt="Jira" />
     </a></div>
-    
+
     <!-- Confluence -->
-    <div class="item9"><a target="_blank" href="https://in-storemedia.atlassian.net/wiki/home/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/confluence.svg" title="Confluence" />
+    <div class="item9"><a target="_blank" href="https://in-storemedia.atlassian.net/wiki/home/" title="Confluence - Documentación">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/confluence.svg" alt="Confluence" />
     </a></div>
-    
-    <!-- Jenkins -->
-    <div class="item1"><a target="_blank" href="https://jenkins.in-storemedia.com/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/jenkins.svg" title="jenkins" />
-    </a></div>
-    
+
     <!-- GitLab -->
-    <div class="item19"><a target="_blank" href="http://gitlab.in-storemedia.com/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gitlab.svg" title="Git" />
+    <div class="item19"><a target="_blank" href="http://gitlab.in-storemedia.com/" title="GitLab - Repositorio de código">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/gitlab.svg" alt="GitLab" />
     </a></div>
-    
+
     <!-- Kibana - Nueva card -->
-    <div class="item1"><a target="_blank" href="https://kibana.in-storemedia.com/login?next=%2F">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/kibana.svg" title="Kibana" />
+    <div class="item1"><a target="_blank" href="https://kibana.in-storemedia.com/login?next=%2F" title="Kibana - Análisis de logs">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/kibana.svg" alt="Kibana" />
     </a></div>
-    
+
     <!-- GitHub -->
-    <div class="item15"><a target="_blank" href="https://github.com/jschdeveloper">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/github.svg" title="github" />
+    <div class="item15"><a target="_blank" href="https://github.com/jschdeveloper" title="GitHub - Repositorio personal">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/github.svg" alt="GitHub" />
     </a></div>
     
     <!-- Social Media & Others -->
-    <div class="item10"><a target="_blank" href="https://www.facebook.com">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/facebook.svg" title="facebook" />
+    <div class="item10"><a target="_blank" href="https://www.facebook.com" title="Facebook - Red social">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/facebook.svg" alt="Facebook" />
     </a></div>
-    
-    <div class="item1"><a target="_blank" href="https://twitter.com/home">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/twitter.svg" title="twitter" />
+
+    <div class="item1"><a target="_blank" href="https://twitter.com/home" title="Twitter - Red social">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/twitter.svg" alt="Twitter" />
     </a></div>
-    
-    <div class="item1"><a target="_blank" href="https://www.instagram.com/">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/instagram.svg" title="insta" />
+
+    <div class="item1"><a target="_blank" href="https://www.instagram.com/" title="Instagram - Red social">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/instagram.svg" alt="Instagram" />
     </a></div>
-    
-    <div class="item16"><a target="_blank" href="https://www.youtube.com/">
-        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/youtube.svg" title="youtube" />
+
+    <div class="item16"><a target="_blank" href="https://www.youtube.com/" title="YouTube - Videos">
+        <img class="grid" src="https://cdnjs.cloudflare.com/ajax/libs/simple-icons/3.2.0/youtube.svg" alt="YouTube" />
     </a></div>
-    
+
     <!-- YouTube Music - Nueva card -->
-    <div class="item16"><a target="_blank" href="https://music.youtube.com/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtubemusic.svg" title="YouTube Music" />
+    <div class="item16"><a target="_blank" href="https://music.youtube.com/" title="YouTube Music - Música en streaming">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/youtubemusic.svg" alt="YouTube Music" />
     </a></div>
 
     <!-- Amazon -->
-    <div class="item5"><a target="_blank" href="https://www.amazon.es/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/amazon.svg" title="amazon" />
+    <div class="item5"><a target="_blank" href="https://www.amazon.es/" title="Amazon - Tienda online">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/amazon.svg" alt="Amazon" />
     </a></div>
-    
+
     <!-- OneDrive -->
-    <div class="item6"><a target="_blank" href="https://onedrive.live.com/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/microsoftonedrive.svg" title="one-drive" />
+    <div class="item6"><a target="_blank" href="https://onedrive.live.com/" title="OneDrive - Almacenamiento en la nube">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/microsoftonedrive.svg" alt="OneDrive" />
     </a></div>
-    
+
     <!-- ChatGPT -->
-    <div class="item1"><a target="_blank" href="https://chat.openai.com/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg" title="ChatGPT" />
+    <div class="item1"><a target="_blank" href="https://chat.openai.com/" title="ChatGPT - Asistente de IA OpenAI">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/openai.svg" alt="ChatGPT" />
     </a></div>
 
     <!-- Google Gemini -->
-    <div class="item1"><a target="_blank" href="https://gemini.google.com/app?hl=es-ES">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg" title="Gemini" />
+    <div class="item1"><a target="_blank" href="https://gemini.google.com/app?hl=es-ES" title="Gemini - Asistente de IA Google">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg" alt="Gemini" />
     </a></div>
 
     <!-- Claude AI -->
     <div class="item1"><a target="_blank" href="https://claude.ai/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/c.svg" title="Claude AI" />
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/anthropic.svg" title="Claude AI" />
     </a></div>
 
     <!-- QlikView -->
-    <div class="item1"><a target="_blank" href="https://qv.in-storemedia.com/qlikview/FormLogin.htm">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/quicklook.svg" title="QlikView" />
+    <div class="item1"><a target="_blank" href="https://qv.in-storemedia.com/qlikview/FormLogin.htm" title="QlikView - Análisis de datos">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/quicklook.svg" alt="QlikView" />
     </a></div>
 
     <!-- QlikSense -->
-    <div class="item1"><a target="_blank" href="https://qs.in-storemedia.com/internal_windows_authentication/">
+    <div class="item1"><a target="_blank" href="https://qs.in-storemedia.com/hub/">
         <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/baremetrics.svg" title="QlikSense" />
     </a></div>
 
     <!-- Lucca -->
-    <div class="item1"><a target="_blank" href="https://in-storemedia.ilucca.net/hello/">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/clockify.svg" title="Lucca" />
+    <div class="item1"><a target="_blank" href="https://in-storemedia.ilucca.net/hello/" title="Lucca - Gestión de tiempo">
+        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/clockify.svg" alt="Lucca" />
     </a></div>
 
     <!-- Sophos -->
     <div class="item1"><a target="_blank" href="https://cloud.sophos.com/manage/self-service">
-        <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/security.svg" title="Sophos" />
+        <div class="sophos-logo" title="Sophos">Sophos</div>
     </a></div>
 
      <!-- Calendar - Nueva card -->
-     <div class="item1"><a target="_blank" href="https://preview--ism-fixation-calendar.lovable.app/">
-      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/protoncalendar.svg" title="ISM Calendar" />
+     <div class="item1"><a target="_blank" href="https://preview--ism-fixation-calendar.lovable.app/" title="ISM Calendar - Calendario de fijaciones">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/protoncalendar.svg" alt="ISM Calendar" />
   </a></div>
 
   <!-- Trello BAM -->
@@ -604,8 +599,8 @@
   </a></div>
 
   <!-- Ekon Pro -->
-  <div class="item1"><a target="_blank" href="https://ekon-pro.in-storemedia.com:5443/">
-      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/serverless.svg" title="Ekon Pro" />
+  <div class="item1"><a target="_blank" href="https://ekon-pro.in-storemedia.com:5443/" class="text-logo">
+      <span class="text-icon">ekon-pro</span>
   </a></div>
 
   <!-- Ekon Pro Server Status -->
@@ -614,8 +609,8 @@
   </a></div>
 
   <!-- Ekon Staging -->
-  <div class="item1"><a target="_blank" href="https://ekon-stg.in-storemedia.com:19443/">
-      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/serverfault.svg" title="Ekon Staging" />
+  <div class="item1"><a target="_blank" href="https://ekon-stg.in-storemedia.com:19443/" class="text-logo">
+      <span class="text-icon">ekon-stg</span>
   </a></div>
 
   <!-- Ekon Staging Server Status -->
@@ -632,6 +627,16 @@
   <div class="item1"><a target="_blank" href="https://checkmk.in-storemedia.com:20443/">
       <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/checkmarx.svg" title="CheckMK" />
   </a></div>
+
+  <!-- Salesforce -->
+  <div class="item1"><a target="_blank" href="https://in-store-media.my.salesforce.com/">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/salesforce.svg" title="Salesforce" />
+  </a></div>
+
+  <!-- TravelPerk -->
+  <div class="item1"><a target="_blank" href="https://app.travelperk.com/login">
+      <img class="grid" src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tripadvisor.svg" title="TravelPerk" />
+  </a></div>
 </div>
 
 <!-- Añadir estilos para los iconos en modo oscuro -->
@@ -639,7 +644,7 @@
   [data-theme="dark"] .grid {
     filter: invert(1);
   }
-  
+
   /* Ajustar el tamaño específicamente para estos iconos si es necesario */
   .item3 .grid,
   .item1 .grid {
@@ -652,6 +657,27 @@
     font-weight: bold;
     width: 50%;
     height: 50%;
+  }
+
+  /* Estilo para el logo de Sophos con texto */
+  .sophos-logo {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--text-color);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* Excluir el logo de Sophos del filtro de inversión en modo oscuro */
+  [data-theme="dark"] .sophos-logo {
+    filter: none;
+    color: var(--text-color);
   }
 </style>
 
@@ -685,6 +711,15 @@
       const newSize = Math.max(60, Math.min(180, currentSize + change));
       root.style.setProperty('--card-size', `${newSize}px`);
       localStorage.setItem('cardSize', newSize);
+
+      // Adjust flag sizes proportionally (base: 90px card = 28px flag width)
+      const flagScale = newSize / 90;
+      const newFlagWidth = Math.round(28 * flagScale);
+      const newFlagHeight = Math.round(21 * flagScale);
+      root.style.setProperty('--flag-width', `${newFlagWidth}px`);
+      root.style.setProperty('--flag-height', `${newFlagHeight}px`);
+      localStorage.setItem('flagWidth', newFlagWidth);
+      localStorage.setItem('flagHeight', newFlagHeight);
     }
 
     // Recuperar el tamaño guardado al cargar la página
@@ -692,6 +727,13 @@
       const savedSize = localStorage.getItem('cardSize');
       if (savedSize) {
         document.documentElement.style.setProperty('--card-size', savedSize + 'px');
+      }
+
+      const savedFlagWidth = localStorage.getItem('flagWidth');
+      const savedFlagHeight = localStorage.getItem('flagHeight');
+      if (savedFlagWidth && savedFlagHeight) {
+        document.documentElement.style.setProperty('--flag-width', savedFlagWidth + 'px');
+        document.documentElement.style.setProperty('--flag-height', savedFlagHeight + 'px');
       }
     });
 
@@ -777,33 +819,86 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
+    // Keyboard shortcut: Ctrl + Space to focus search
+    document.addEventListener('keydown', function(event) {
+      if (event.ctrlKey && event.code === 'Space') {
+        event.preventDefault();
+        const searchInput = document.getElementById('searchInput');
+        searchInput.focus();
+        searchInput.select();
+      }
+    });
+
     // Funciones del buscador
     function handleSearch(event) {
+      const searchTerm = event.target.value.toLowerCase().trim();
+
       if (event.key === 'Enter') {
         openFirstMatch();
+        return;
       }
+
+      // Filtrado en tiempo real
+      const items = document.querySelectorAll('.grid-container > div');
+
+      items.forEach(item => {
+        const link = item.querySelector('a');
+        const img = link.querySelector('img');
+        const hubDiv = link.querySelector('.hub-letter');
+
+        // Buscar el título en el link primero, luego en la imagen
+        let title = link.getAttribute('title') || '';
+        if (!title && img) {
+          title = img.getAttribute('alt') || img.getAttribute('title') || '';
+        }
+        if (!title && hubDiv) {
+          title = 'hub';
+        }
+
+        const url = link.getAttribute('href') || '';
+
+        if (!searchTerm ||
+            title.toLowerCase().includes(searchTerm) ||
+            url.toLowerCase().includes(searchTerm)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
     }
 
     function openFirstMatch() {
       const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
 
       if (!searchTerm) {
+        // Limpiar el buscador
+        document.getElementById('searchInput').value = '';
+        // Mostrar todos los iconos
+        document.querySelectorAll('.grid-container > div').forEach(item => {
+          item.style.display = '';
+        });
         return;
       }
 
-      // Obtener todos los enlaces
-      const links = document.querySelectorAll('.grid-container a');
+      // Obtener todos los enlaces visibles
+      const items = document.querySelectorAll('.grid-container > div');
 
-      // Buscar la primera coincidencia
-      for (let link of links) {
-        const title = link.querySelector('img').getAttribute('title').toLowerCase();
-        const url = link.getAttribute('href').toLowerCase();
+      for (let item of items) {
+        if (item.style.display !== 'none') {
+          const link = item.querySelector('a');
+          const url = link.getAttribute('href');
 
-        if (title.includes(searchTerm) || url.includes(searchTerm)) {
           // Abrir la primera coincidencia
-          window.open(link.getAttribute('href'), '_blank');
+          window.open(url, '_blank');
+          trackUsage(url);
+
           // Limpiar el campo de búsqueda
           document.getElementById('searchInput').value = '';
+
+          // Mostrar todos los iconos nuevamente
+          document.querySelectorAll('.grid-container > div').forEach(item => {
+            item.style.display = '';
+          });
           break;
         }
       }
